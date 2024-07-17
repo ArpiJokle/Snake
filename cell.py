@@ -14,8 +14,6 @@ class Cell:
         
         #direction calculation
         Vector = (math.cos(self.angle), math.sin(self.angle))
-        #Len = math.sqrt(Vector[0] ** 2 + Vector[1] ** 2)
-        #Vector = (Vector[0] / abs(Len), Vector[1] / abs(Len))
         
         #DRAW RADIUS
         pygame.draw.circle(Screen, Color, (self.x, self.y), self.radius, 7)
