@@ -99,7 +99,6 @@ class Snake:
             if DIST <= self.CellList[0].radius + self.CellList[i].radius:
                 self.status = False
                 self.COLOR = (0.2 * self.COLOR[0], 0.2 * self.COLOR[1], 0.2 * self.COLOR[2])
-                print(DIST)
                 return i
         
         Distance = math.sqrt((self.CellList[0].x - Apple.x) ** 2 + (self.CellList[0].y - Apple.y) ** 2)
