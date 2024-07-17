@@ -2,9 +2,10 @@ import pygame
 from cell import *
 import math
 import random
+import apple
 
 class Snake:
-    def __init__(self, x, y, Color, d = 20, r_min = 20, r_max = -1):
+    def __init__(self, x, y, Color, d = 20, sections = 800, r_min = 20, r_max = -1):
         if r_max == -1:
             r_max = int(1.5 * r_min)
         self.r_min = r_min
@@ -14,6 +15,7 @@ class Snake:
         self.CellList = [Cell(x, y, r_min, d)]
         self.COLOR = Color
         self.status = True
+        self.Sections = sections
     
     def Turn(self, keys):
         Dif = 0.0
@@ -40,14 +42,14 @@ class Snake:
             if Dif > 1E-7:
                 if self.CellList[0].angle < Target:
                     if Dif <= math.pi:
-                        self.CellList[0].angle += math.pi/800
+                        self.CellList[0].angle += math.pi/self.Sections
                     else:
-                        self.CellList[0].angle -= math.pi/800
+                        self.CellList[0].angle -= math.pi/self.Sections
                 else:
                     if Dif < math.pi:
-                        self.CellList[0].angle -= math.pi/800
+                        self.CellList[0].angle -= math.pi/self.Sections
                     else:
-                        self.CellList[0].angle += math.pi/800
+                        self.CellList[0].angle += math.pi/self.Sections
             else:
                 self.CellList[0].angle = Target
         while self.CellList[0].angle >= 2*math.pi:
@@ -85,9 +87,25 @@ class Snake:
         for i in range(1, len(self.CellList) + 1):
             self.CellList[i - 1].radius = self.r_min + self.a * i * i + self.b * i
     
-    def CheckState(self, Border, Width, Height):
+    def CheckState(self, Border, Width, Height, Apple, Add):
         Distance = min(abs(self.CellList[0].x - Width), abs(self.CellList[0].x),
                        abs(self.CellList[0].y), abs(self.CellList[0].y - Height))
         if Distance <= Border + self.CellList[0].radius:
             self.status = False
             self.COLOR = (0.2 * self.COLOR[0], 0.2 * self.COLOR[1], 0.2 * self.COLOR[2])
+        
+        for i in range(10, len(self.CellList)):
+            DIST = math.sqrt((self.CellList[0].x - self.CellList[i].x) ** 2 + (self.CellList[0].y - self.CellList[i].y) ** 2)
+            if DIST <= self.CellList[0].radius + self.CellList[i].radius:
+                self.status = False
+                self.COLOR = (0.2 * self.COLOR[0], 0.2 * self.COLOR[1], 0.2 * self.COLOR[2])
+                print(DIST)
+                return i
+        
+        Distance = math.sqrt((self.CellList[0].x - Apple.x) ** 2 + (self.CellList[0].y - Apple.y) ** 2)
+        if Distance <= self.CellList[0].radius + Apple.CurrentR:
+            Apple.Generate()
+            for i in range(Add):
+                self.AddCell()
+        
+        return -1

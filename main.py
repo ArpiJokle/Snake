@@ -1,6 +1,7 @@
 from cell import *
 import pygame
 import snake
+import apple
 from values import *
 
 pygame.init()
@@ -11,16 +12,18 @@ RENDER = pygame.USEREVENT + 1
 pygame.time.set_timer(RENDER, 1)
 
 
-Snake = snake.Snake(WIDTH/2, HEIGHT/2, GREEN, SNAKE_DIST, SNAKE_R_MIN, SNAKE_R_MAX)
+Snake = snake.Snake(WIDTH/2, HEIGHT/2, GREEN, SNAKE_DIST, SECTIONS, SNAKE_R_MIN, SNAKE_R_MAX)
 for i in range(SNAKE_LEN):
     Snake.AddCell()
+
+Apple = apple.Apple(WIDTH, HEIGHT, RED, APPLE_WIDTH, APPLE_MIN_R, APPLE_MAX_R)
 
 running = True
 while running:
     keys = pygame.key.get_pressed()
     if Snake.status:
         Snake.Turn(keys)
-        Snake.Move(15)
+        Snake.Move(VELOCITY)
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -31,25 +34,18 @@ while running:
             if event.key == pygame.K_SPACE:
                 Snake.AddCell()
         if event.type == RENDER:
-            #AXES
             window.fill((80, 80, 80))
-            pygame.draw.line(window, BLACK, (0, HEIGHT/2), 
-                            (WIDTH, HEIGHT / 2))
-            pygame.draw.line(window, BLACK, (WIDTH/2, 0), 
-                            (WIDTH/2, HEIGHT))
             
             pygame.draw.rect(window, RED, ((0, 0), (WIDTH, HEIGHT)), BORDER * 2)
             
+            Apple.Render(window)
             Snake.Render(window)
+            
     
-    Snake.CheckState(BORDER, WIDTH, HEIGHT)
+    Snake.CheckState(BORDER, WIDTH, HEIGHT, Apple, SNAKE_GROW)
     
     pygame.display.flip()
 
 pygame.quit()
-
-
-#TODO MAKE APPLE
-#TODO MAKE APPLE EATING
 
 #? SELF INTERSECTION DEATH

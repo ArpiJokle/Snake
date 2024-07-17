@@ -34,6 +34,8 @@ class Cell:
     def drawCell(self, Screen):
         Points = self.CellPoints()
         
+        pygame.draw.circle(Screen, (0, 0, 0), (self.x, self.y), 5)
+        
         #Side_1
         pygame.draw.circle(Screen, (250, 20, 20), Points[0], 5)
         #Side_2
