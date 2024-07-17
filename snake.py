@@ -13,6 +13,7 @@ class Snake:
         self.b = - self.a 
         self.CellList = [Cell(x, y, r_min, d)]
         self.COLOR = Color
+        self.status = True
     
     def Turn(self, keys):
         Dif = 0.0
@@ -83,3 +84,10 @@ class Snake:
     def Smooth(self):
         for i in range(1, len(self.CellList) + 1):
             self.CellList[i - 1].radius = self.r_min + self.a * i * i + self.b * i
+    
+    def CheckState(self, Border, Width, Height):
+        Distance = min(abs(self.CellList[0].x - Width), abs(self.CellList[0].x),
+                       abs(self.CellList[0].y), abs(self.CellList[0].y - Height))
+        if Distance <= Border + self.CellList[0].radius:
+            self.status = False
+            self.COLOR = (0.2 * self.COLOR[0], 0.2 * self.COLOR[1], 0.2 * self.COLOR[2])

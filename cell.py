@@ -22,6 +22,8 @@ class Cell:
     def drawHead(self, Screen):
         Points = self.HeadPoints()
         
+        pygame.draw.circle(Screen, (200, 200, 200), (self.x, self.y), 7)
+        
         #HEAD
         pygame.draw.circle(Screen, (20, 250, 20), Points[0], 5)
         #Side_1
@@ -36,6 +38,7 @@ class Cell:
         pygame.draw.circle(Screen, (250, 20, 20), Points[0], 5)
         #Side_2
         pygame.draw.circle(Screen, (20, 20, 250), Points[1], 5)
+        pygame.draw.circle(Screen, (180, 180, 180), (self.x, self.y), self.radius, 1)
     
     def drawTail(self, Screen):
         Points = self.TailPoints()
