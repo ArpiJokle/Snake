@@ -1,5 +1,7 @@
 import pygame
 import math
+import random
+import cell
 
 def Turning(keys, angle):
     Dif = 0.0
@@ -43,3 +45,9 @@ def Turning(keys, angle):
         angle += 2*math.pi
     
     return angle
+
+
+def RandomSnake(Snake):
+    for _ in range(1, 16):
+        Snake[_].radius = random.randint(15, 40)
+    return Snake
