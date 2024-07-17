@@ -15,7 +15,9 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 ORANGE = (255, 138, 0)
 
-A = Cell(WIDTH/2, HEIGHT/2)
+Snake = [Cell(WIDTH/2, HEIGHT/2, 20, 60)]
+for _ in range(16):
+    Snake.append(Cell(Snake[_]))
 
 running = True
 while running:
@@ -31,8 +33,16 @@ while running:
                      (WIDTH/2, HEIGHT))
     
     keys = pygame.key.get_pressed()
-    A.angle = Turning(keys, A.angle)
-    A.drawHead(window, (70, 70, 70))
+    Snake[0].angle = Turning(keys, Snake[0].angle)
+    
+    #Moving
+    Snake[0].MoveHead(8)
+    for i in range(1, len(Snake)):
+        Snake[i].MoveCell((Snake[i-1].x, Snake[i-1].y))
+    
+    Snake[0].drawHead(window, (70, 70, 70))
+    for i in range(1, len(Snake)):
+        Snake[i].drawCell(window, (10, 70, 80), (Snake[i-1].x, Snake[i-1].y))
     
     pygame.display.flip()
 
