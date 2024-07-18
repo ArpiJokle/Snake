@@ -17,6 +17,7 @@ class Snake:
         self.status = True
         self.Sections = sections
         self.Grow = 0
+        self.DWidth = 0
     
     def Turn(self, keys):
         Dif = 0.0
@@ -64,20 +65,6 @@ class Snake:
             self.CellList[i].MoveCell((self.CellList[i-1].x, self.CellList[i-1].y))
     
     def Render(self, screen, Minus):
-        if not self.status:
-            self.RandomRadiuses()
-            font = pygame.font.Font('freesansbold.ttf', 32)
-            text = font.render("SCORE : " + str(len(self.CellList) - Minus - 1 + self.Grow), True, (210, 120, 210))
-            textRect = text.get_rect()
-            textRect.center = (screen.get_width() // 2, screen.get_height() // 3)
-            screen.blit(text, textRect)
-            text = font.render("Press \'r\' to RESTART", True, (210, 120, 210))
-            textRect = text.get_rect()
-            textRect.center = (screen.get_width() // 2, screen.get_height() // 3 + 40)
-            screen.blit(text, textRect)
-        else:
-            self.CellList[0].drawHead(screen);
-        
         SnakePoints = []
         SnakePoints = self.CellList[0].HeadPoints(SnakePoints)
         for i in range(1, len(self.CellList)):
@@ -87,6 +74,20 @@ class Snake:
         for i in range(0, len(SnakePoints)-1):
             pygame.draw.line(screen, self.COLOR, SnakePoints[i], SnakePoints[i + 1], 5)
         pygame.draw.line(screen, self.COLOR, SnakePoints[0], SnakePoints[len(SnakePoints) - 1], 5)
+        if not self.status:
+            self.RandomRadiuses()
+            font = pygame.font.Font('freesansbold.ttf', 32)
+            text = font.render("SCORE : " + str(len(self.CellList) - Minus - 1 + self.Grow + self.DWidth * 5),
+                               True, (210, 120, 210))
+            textRect = text.get_rect()
+            textRect.center = (screen.get_width() // 2, screen.get_height() // 3)
+            screen.blit(text, textRect)
+            text = font.render("Press \'r\' to RESTART", True, (210, 120, 210))
+            textRect = text.get_rect()
+            textRect.center = (screen.get_width() // 2, screen.get_height() // 3 + 40)
+            screen.blit(text, textRect)
+        else:
+            self.CellList[0].drawHead(screen);
     
     def RandomRadiuses(self):
         for _ in range(0, len(self.CellList)):
@@ -109,20 +110,23 @@ class Snake:
             self.status = False
             self.Grow = 0
             self.COLOR = (0.2 * self.COLOR[0], 0.2 * self.COLOR[1], 0.2 * self.COLOR[2])
+            return -1
         
         for i in range(math.ceil(self.CellList[0].radius * 3 / self.CellList[1].distance), len(self.CellList)):
             DIST = math.sqrt((self.CellList[0].x - self.CellList[i].x) ** 2 + (self.CellList[0].y - self.CellList[i].y) ** 2)
             if DIST <= self.CellList[0].radius + self.CellList[i].radius:
                 self.status = False
+                self.Grow = 0
                 self.COLOR = (0.2 * self.COLOR[0], 0.2 * self.COLOR[1], 0.2 * self.COLOR[2])
                 return i
         
         Distance = math.sqrt((self.CellList[0].x - Apple.x) ** 2 + (self.CellList[0].y - Apple.y) ** 2)
         if Distance <= self.CellList[0].radius + Apple.CurrentR:
             Apple.Generate()
-            if random.randint(1, 10) == 1 and self.r_min != 35:
+            if random.randint(1, 8) == 1:
                 self.r_min += 4
                 self.r_max += 4
+                self.DWidth += 1
                 self.Smooth()
             else:
                 self.Grow += Add

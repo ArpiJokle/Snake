@@ -1,1 +1,1 @@
-.\Scripts\python.exe main.py
+start .\Scripts\pythonw.exe main.py

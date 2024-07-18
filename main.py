@@ -10,7 +10,7 @@ pygame.display.set_caption("SNAKE")
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 RENDER = pygame.USEREVENT + 1
-pygame.time.set_timer(RENDER, 1)
+pygame.time.set_timer(RENDER, 1000 // 80)
 
 GROW = pygame.USEREVENT + 2
 pygame.time.set_timer(GROW, 200)
