@@ -26,14 +26,19 @@ class Cell:
     def drawHead(self, Screen):
         Points = self.HeadPoints()
         
-        pygame.draw.circle(Screen, (200, 200, 200), (self.x, self.y), 7)
+        pygame.draw.line(Screen, (255,20,147), Points[0],
+                         (Points[0][0] + self.Direction[0] * 18,
+                          Points[0][1] + self.Direction[1] * 18),
+                         5)
+        
+        #pygame.draw.circle(Screen, (200, 200, 200), (self.x, self.y), 7)
         
         #HEAD
-        pygame.draw.circle(Screen, (20, 250, 20), Points[0], 5)
+        #pygame.draw.circle(Screen, (20, 250, 20), Points[0], 5)
         #Side_1
-        pygame.draw.circle(Screen, (250, 20, 20), Points[1], 5)
+        #pygame.draw.circle(Screen, (250, 20, 20), Points[1], 5)
         #Side_2
-        pygame.draw.circle(Screen, (20, 20, 250), Points[2], 5)
+        #pygame.draw.circle(Screen, (20, 20, 250), Points[2], 5)
     
     def drawCell(self, Screen):
         Points = self.CellPoints()
@@ -70,14 +75,20 @@ class Cell:
     
     def HeadPoints(self, *args):
         P1 = (self.x + self.Direction[0] * self.radius, self.y + self.Direction[1] * self.radius)
-        P2 = (self.x - self.Direction[1] * self.radius, self.y + self.Direction[0] * self.radius)
-        P3 = (self.x + self.Direction[1] * self.radius, self.y - self.Direction[0] * self.radius)
+        P2 = (self.x - self.Direction[1] * self.radius * 1.1, self.y + self.Direction[0] * self.radius * 1.1)
+        P3 = (self.x + self.Direction[1] * self.radius * 1.1, self.y - self.Direction[0] * self.radius * 1.1)
+        P4 = (P2[0] + self.Direction[0] * self.radius * 0.3, P2[1] + self.Direction[1] * self.radius * 0.3)
+        P5 = (P3[0] + self.Direction[0] * self.radius * 0.3, P3[1] + self.Direction[1] * self.radius * 0.3)
+        P2 = (P2[0] - self.Direction[0] * self.radius * 0.2, P2[1] - self.Direction[1] * self.radius * 0.2)
+        P3 = (P3[0] - self.Direction[0] * self.radius * 0.2, P3[1] - self.Direction[1] * self.radius * 0.2)
         if len(args) == 0:
-            return(P1, P2, P3)
+            return(P1, P4, P2, P3, P5)
         else:
             args[0].append(P1)
+            args[0].append(P4)
             args[0].append(P2)
             args[0].append(P3)
+            args[0].append(P5)
             return args[0]
     
     def CellPoints(self, *args):

@@ -66,6 +66,8 @@ class Snake:
     def Render(self, screen):
         if not self.status:
             self.RandomRadiuses()
+        else:
+            self.CellList[0].drawHead(screen);
         
         SnakePoints = []
         SnakePoints = self.CellList[0].HeadPoints(SnakePoints)
@@ -78,7 +80,7 @@ class Snake:
         pygame.draw.line(screen, self.COLOR, SnakePoints[0], SnakePoints[len(SnakePoints) - 1], 5)
     
     def RandomRadiuses(self):
-        for _ in range(1, len(self.CellList)):
+        for _ in range(0, len(self.CellList)):
             self.CellList[_].radius = random.randint(self.r_min, self.r_max)
     
     def AddCell(self):
