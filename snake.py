@@ -104,7 +104,12 @@ class Snake:
         Distance = math.sqrt((self.CellList[0].x - Apple.x) ** 2 + (self.CellList[0].y - Apple.y) ** 2)
         if Distance <= self.CellList[0].radius + Apple.CurrentR:
             Apple.Generate()
-            for i in range(Add):
-                self.AddCell()
+            if random.randint(1, 8) == 1 and self.r_min != 35:
+                self.r_min += 4
+                self.r_max += 4
+                self.Smooth()
+            else:
+                for i in range(Add):
+                    self.AddCell()
         
         return -1

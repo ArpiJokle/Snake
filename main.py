@@ -48,4 +48,7 @@ while running:
 
 pygame.quit()
 
-#? SELF INTERSECTION DEATH
+
+#! MAKE BETTER GROW
+#! MAKE RESTART BUTTON
+#! REMOVE OTHER BUTTONS
