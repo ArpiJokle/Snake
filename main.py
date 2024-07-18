@@ -33,9 +33,10 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
-                Snake.RandomRadiuses()
-            if event.key == pygame.K_SPACE:
-                Snake.AddCell()
+                Snake = snake.Snake(WIDTH/2, HEIGHT/2, GREEN, SNAKE_DIST, SECTIONS, SNAKE_R_MIN, SNAKE_R_MAX)
+                for i in range(SNAKE_LEN):
+                    Snake.AddCell() 
+                Apple.Generate()
         if event.type == GROW:
             if Snake.Grow:
                 Snake.AddCell()
@@ -53,6 +54,3 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
-
-#! MAKE RESTART BUTTON
-#! REMOVE OTHER BUTTONS

@@ -64,6 +64,9 @@ class Snake:
             self.CellList[i].MoveCell((self.CellList[i-1].x, self.CellList[i-1].y))
     
     def Render(self, screen):
+        if not self.status:
+            self.RandomRadiuses()
+        
         SnakePoints = []
         SnakePoints = self.CellList[0].HeadPoints(SnakePoints)
         for i in range(1, len(self.CellList)):
@@ -76,7 +79,7 @@ class Snake:
     
     def RandomRadiuses(self):
         for _ in range(1, len(self.CellList)):
-            self.CellList[_].radius = random.randint(15, 40)
+            self.CellList[_].radius = random.randint(self.r_min, self.r_max)
     
     def AddCell(self):
         self.CellList.append(Cell(self.CellList[len(self.CellList) - 1], self.CellList[0]))
@@ -106,7 +109,7 @@ class Snake:
         Distance = math.sqrt((self.CellList[0].x - Apple.x) ** 2 + (self.CellList[0].y - Apple.y) ** 2)
         if Distance <= self.CellList[0].radius + Apple.CurrentR:
             Apple.Generate()
-            if random.randint(1, 8) == 1 and self.r_min != 35:
+            if random.randint(1, 10) == 1 and self.r_min != 35:
                 self.r_min += 4
                 self.r_max += 4
                 self.Smooth()
