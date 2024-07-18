@@ -11,6 +11,9 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 RENDER = pygame.USEREVENT + 1
 pygame.time.set_timer(RENDER, 1)
 
+GROW = pygame.USEREVENT + 2
+pygame.time.set_timer(GROW, 200)
+
 
 Snake = snake.Snake(WIDTH/2, HEIGHT/2, GREEN, SNAKE_DIST, SECTIONS, SNAKE_R_MIN, SNAKE_R_MAX)
 for i in range(SNAKE_LEN):
@@ -33,6 +36,10 @@ while running:
                 Snake.RandomRadiuses()
             if event.key == pygame.K_SPACE:
                 Snake.AddCell()
+        if event.type == GROW:
+            if Snake.Grow:
+                Snake.AddCell()
+                Snake.Grow -= 1
         if event.type == RENDER:
             window.fill((80, 80, 80))
             
@@ -40,7 +47,6 @@ while running:
             
             Apple.Render(window)
             Snake.Render(window)
-            
     
     Snake.CheckState(BORDER, WIDTH, HEIGHT, Apple, SNAKE_GROW)
     
@@ -48,7 +54,5 @@ while running:
 
 pygame.quit()
 
-
-#! MAKE BETTER GROW
 #! MAKE RESTART BUTTON
 #! REMOVE OTHER BUTTONS

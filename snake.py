@@ -16,6 +16,7 @@ class Snake:
         self.COLOR = Color
         self.status = True
         self.Sections = sections
+        self.Grow = 0
     
     def Turn(self, keys):
         Dif = 0.0
@@ -78,7 +79,7 @@ class Snake:
             self.CellList[_].radius = random.randint(15, 40)
     
     def AddCell(self):
-        self.CellList.append(Cell(self.CellList[len(self.CellList) - 1]))
+        self.CellList.append(Cell(self.CellList[len(self.CellList) - 1], self.CellList[0]))
         self.a = - 4 * (self.r_max - self.r_min) / (len(self.CellList) ** 2)
         self.b = - self.a * len(self.CellList)
         self.Smooth()
@@ -92,9 +93,10 @@ class Snake:
                        abs(self.CellList[0].y), abs(self.CellList[0].y - Height))
         if Distance <= Border + self.CellList[0].radius:
             self.status = False
+            self.Grow = 0
             self.COLOR = (0.2 * self.COLOR[0], 0.2 * self.COLOR[1], 0.2 * self.COLOR[2])
         
-        for i in range(10, len(self.CellList)):
+        for i in range(math.ceil(self.CellList[0].radius * 3 / self.CellList[1].distance), len(self.CellList)):
             DIST = math.sqrt((self.CellList[0].x - self.CellList[i].x) ** 2 + (self.CellList[0].y - self.CellList[i].y) ** 2)
             if DIST <= self.CellList[0].radius + self.CellList[i].radius:
                 self.status = False
@@ -109,7 +111,6 @@ class Snake:
                 self.r_max += 4
                 self.Smooth()
             else:
-                for i in range(Add):
-                    self.AddCell()
+                self.Grow += Add
         
         return -1

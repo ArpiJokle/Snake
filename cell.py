@@ -3,10 +3,14 @@ import math
 
 class Cell:
     def __init__(self, *args):
-        if len(args) == 1:
+        if len(args) == 2:
             Prev = args[0]
-            self.x = Prev.x - Prev.distance
-            self.y = Prev.y
+            First = args[1]
+            Vector = (Prev.Direction[0] + First.Direction[0], Prev.Direction[1] + First.Direction[1])
+            Len = math.sqrt(Vector[0] ** 2 + Vector[1] ** 2)
+            Vector = (Vector[0] / Len, Vector[1] / Len)
+            self.x = Prev.x - Vector[0] * Prev.distance
+            self.y = Prev.y - Vector[1] * Prev.distance
             self.radius = Prev.radius
             self.distance = Prev.distance
             self.angle = 0
