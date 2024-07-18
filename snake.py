@@ -63,9 +63,18 @@ class Snake:
         for i in range(1, len(self.CellList)):
             self.CellList[i].MoveCell((self.CellList[i-1].x, self.CellList[i-1].y))
     
-    def Render(self, screen):
+    def Render(self, screen, Minus):
         if not self.status:
             self.RandomRadiuses()
+            font = pygame.font.Font('freesansbold.ttf', 32)
+            text = font.render("SCORE : " + str(len(self.CellList) - Minus - 1 + self.Grow), True, (210, 120, 210))
+            textRect = text.get_rect()
+            textRect.center = (screen.get_width() // 2, screen.get_height() // 3)
+            screen.blit(text, textRect)
+            text = font.render("Press \'r\' to RESTART", True, (210, 120, 210))
+            textRect = text.get_rect()
+            textRect.center = (screen.get_width() // 2, screen.get_height() // 3 + 40)
+            screen.blit(text, textRect)
         else:
             self.CellList[0].drawHead(screen);
         

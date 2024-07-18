@@ -6,6 +6,7 @@ from values import *
 
 pygame.init()
 
+pygame.display.set_caption("SNAKE")
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 RENDER = pygame.USEREVENT + 1
@@ -47,7 +48,7 @@ while running:
             pygame.draw.rect(window, RED, ((0, 0), (WIDTH, HEIGHT)), BORDER * 2)
             
             Apple.Render(window)
-            Snake.Render(window)
+            Snake.Render(window, SNAKE_LEN)
     
     Snake.CheckState(BORDER, WIDTH, HEIGHT, Apple, SNAKE_GROW)
     
