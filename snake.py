@@ -105,7 +105,7 @@ class Snake:
             self.CellList[_].radius = random.randint(self.r_min, self.r_max)
     
     def AddCell(self):
-        self.CellList.append(Cell(self.CellList[len(self.CellList) - 1], self.CellList[0]))
+        self.CellList.append(Cell(self.CellList[len(self.CellList) - 1]))
         self.Smooth()
     
     def Smooth(self):

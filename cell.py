@@ -3,10 +3,9 @@ import math
 
 class Cell:
     def __init__(self, *args):
-        if len(args) == 2:
+        if len(args) == 1:
             Prev = args[0]
-            First = args[1]
-            Vector = (Prev.Direction[0] + First.Direction[0], Prev.Direction[1] + First.Direction[1])
+            Vector = Prev.Direction
             Len = math.sqrt(Vector[0] ** 2 + Vector[1] ** 2)
             Vector = (Vector[0] / Len, Vector[1] / Len)
             self.x = Prev.x - Vector[0] * Prev.distance
