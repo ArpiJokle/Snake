@@ -3,24 +3,27 @@ import pygame
 import snake
 import apple
 from values import *
+import random
 
 pygame.init()
 
 pygame.display.set_caption("SNAKE")
+programIcon = pygame.image.load("icon.png")
+pygame.display.set_icon(programIcon)
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 RENDER = pygame.USEREVENT + 1
 pygame.time.set_timer(RENDER, 1000 // 80)
 
-GROW = pygame.USEREVENT + 2
-pygame.time.set_timer(GROW, 200)
+GROWING = pygame.USEREVENT + 2
+pygame.time.set_timer(GROWING, 50)
 
 
-Snake = snake.Snake(WIDTH/2, HEIGHT/2, GREEN, SNAKE_DIST, SECTIONS, SNAKE_R_MIN, SNAKE_R_MAX)
+Snake = snake.Snake(WIDTH/2, HEIGHT/2, SNAKE_COLOR, SNAKE_DIST, SECTIONS, SNAKE_R_MIN, SNAKE_R_MAX, SNAKE_GROW)
 for i in range(SNAKE_LEN):
     Snake.AddCell()
 
-Apple = apple.Apple(WIDTH, HEIGHT, RED, APPLE_WIDTH, APPLE_MIN_R, APPLE_MAX_R)
+Apple = apple.Apple(WIDTH, HEIGHT, BORDER, APPLE_COLOR, APPLE_WIDTH, APPLE_MIN_R, APPLE_MAX_R)
 
 running = True
 while running:
@@ -34,23 +37,23 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
-                Snake = snake.Snake(WIDTH/2, HEIGHT/2, GREEN, SNAKE_DIST, SECTIONS, SNAKE_R_MIN, SNAKE_R_MAX)
+                Snake = snake.Snake(WIDTH/2, HEIGHT/2, SNAKE_COLOR, SNAKE_DIST, SECTIONS, SNAKE_R_MIN, SNAKE_R_MAX, SNAKE_GROW)
                 for i in range(SNAKE_LEN):
                     Snake.AddCell() 
                 Apple.Generate()
-        if event.type == GROW:
-            if Snake.Grow:
-                Snake.AddCell()
-                Snake.Grow -= 1
+            if event.key == pygame.K_1:
+                Snake.COLOR = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        if event.type == GROWING:
+            Snake.Growing()
         if event.type == RENDER:
+            #! BACKGROUND
             window.fill((80, 80, 80))
-            
             pygame.draw.rect(window, RED, ((0, 0), (WIDTH, HEIGHT)), BORDER * 2)
             
             Apple.Render(window)
-            Snake.Render(window, SNAKE_LEN)
+            Snake.Render(window)
     
-    Snake.CheckState(BORDER, WIDTH, HEIGHT, Apple, SNAKE_GROW)
+    Snake.CheckState(BORDER, WIDTH, HEIGHT, Apple)
     
     pygame.display.flip()
 

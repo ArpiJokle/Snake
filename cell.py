@@ -25,41 +25,11 @@ class Cell:
     
     def drawHead(self, Screen):
         Points = self.HeadPoints()
-        
         pygame.draw.line(Screen, (255,20,147), Points[0],
                          (Points[0][0] + self.Direction[0] * 18,
                           Points[0][1] + self.Direction[1] * 18),
                          5)
-        
-        #pygame.draw.circle(Screen, (200, 200, 200), (self.x, self.y), 7)
-        
-        #HEAD
-        #pygame.draw.circle(Screen, (20, 250, 20), Points[0], 5)
-        #Side_1
-        #pygame.draw.circle(Screen, (250, 20, 20), Points[1], 5)
-        #Side_2
-        #pygame.draw.circle(Screen, (20, 20, 250), Points[2], 5)
-    
-    def drawCell(self, Screen):
-        Points = self.CellPoints()
-        
-        pygame.draw.circle(Screen, (0, 0, 0), (self.x, self.y), 5)
-        
-        #Side_1
-        pygame.draw.circle(Screen, (250, 20, 20), Points[0], 5)
-        #Side_2
-        pygame.draw.circle(Screen, (20, 20, 250), Points[1], 5)
-        pygame.draw.circle(Screen, (180, 180, 180), (self.x, self.y), self.radius, 1)
-    
-    def drawTail(self, Screen):
-        Points = self.TailPoints()
-        
-        #HEAD
-        pygame.draw.circle(Screen, (250, 20, 250), Points[0], 5)
-        #Side_1
-        pygame.draw.circle(Screen, (250, 20, 20), Points[1], 5)
-        #Side_2
-        pygame.draw.circle(Screen, (20, 20, 250), Points[2], 5)
+
     
     def MoveHead(self, velocity = 5):
         self.Direction = (math.cos(self.angle), math.sin(self.angle))
